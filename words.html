@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let text = prompt("напишите любой текст", "a bb ccc dddd eeeee");
+      text = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+
+      let arr = text.split(" ");
+      let result = [];
+      let count = 0;
+
+      function longword(arr) {
+        let word = "";
+        let position = 0;
+        let length = 0;
+
+        for (i = 0; i < arr.length; i++) {
+          if (length < arr[i].length) {
+            (length = arr[i].length), ((word = arr[i]), (position = i));
+          }
+        }
+
+        result.push(arr.splice(position, 1));
+        count++;
+
+        if (count < 3) {
+          longword(arr);
+        } else alert(`Самые длинные слова в тексте: ${result}`);
+      }
+
+      longword(arr);
+    </script>
+  </body>
+</html>
