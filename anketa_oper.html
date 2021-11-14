@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let name = prompt("Введите Ваше имя", "Иван");
+      let patronymic = prompt("Введите Ваше отчество", "Иванович");
+      let surname = prompt("Введите Вашу фамилию", "Иванов");
+
+      let age = prompt("Укажите Ваш возраст", "18");
+      let now = new Date();
+      let birth = new Date();
+      birth.setFullYear(now.getFullYear() - age);
+      let days = (now - birth) / 86400000;
+
+      let gender = confirm("Ваш пол мужской?");
+      gender = gender == true ? "мужской" : "женский";
+
+      let retiree =
+        (gender == "мужской" && age >= 65) || (gender == "женский" && age >= 63)
+          ? "да"
+          : "нет";
+
+      alert(
+        `ФИО: ${surname} ${name} ${patronymic} \nВозраст, лет: ${age} \nВозраст, дней: ${days} \nПол: ${gender} \nПенсионный возраст: ${retiree}`
+      );
+    </script>
+  </body>
+</html>
