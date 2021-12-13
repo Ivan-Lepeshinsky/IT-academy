@@ -18,14 +18,16 @@
       let patronymic;
       for (i = 0; ; i++) {
         patronymic = prompt("Введите Ваше отчество", "Иванович");
-        if (patronymic.match(/^[А-Яа-я]+$/gi)) break;
+        if (patronymic === null) continue;
+        else if (patronymic.match(/^[А-Яа-я]+$/gi)) break;
         else continue;
       }
 
       let surname;
       for (i = 0; ; i++) {
         surname = prompt("Введите Вашу фамилию", "Иванов");
-        if (surname.match(/^[А-Яа-я]+$/gi)) break;
+        if (surname === null) continue;
+        else if (surname.match(/^[А-Яа-я]+$/gi)) break;
         else continue;
       }
 
