@@ -21,20 +21,16 @@
         for (i = 0; i < str.length; i++) {
           if (str[i] === " ") {
             countHead++;
-            continue;
           } else break;
         }
 
         for (i = str.length - 1; i >= 0; i--) {
           if (str[i] === " ") {
             countTail++;
-            continue;
           } else break;
         }
 
-        if (countHead === str.length) {
-          result = str.substring(countHead);
-        } else result = str.substring(countHead, str.length - countTail);
+        result = str.slice(countHead, str.length - countTail);
         return result;
       }
       alert(`#${removeSpaces(str)}#`);
