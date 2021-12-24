@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+      let text = prompt(
+        "Введите любой текст на русском языке",
+        "Равным образом постоянное информационно-пропагандистское обеспечение нашей деятельности обеспечивает широкому кругу (специалистов) участие в формировании системы обучения кадров, соответствует насущным потребностям. Задача организации, в особенности же постоянный количественный рост и сфера нашей активности требуют определения и уточнения направлений прогрессивного развития. С другой стороны рамки и место обучения кадров требуют от нас анализа позиций, занимаемых участниками в отношении поставленных задач. Не следует, однако забывать, что постоянный количественный рост и сфера нашей активности позволяет выполнять важные задания по разработке существенных финансовых и административных условий. Таким образом новая модель организационной деятельности представляет собой интересный эксперимент проверки соответствующий условий активизации. Значимость этих проблем настолько очевидна, что дальнейшее развитие различных форм деятельности в значительной степени обуславливает создание форм развития."
+      ).toLowerCase();
+
+      let count = 0;
+
+      function countVowelsCycle() {
+        count = 0; // это можно убрать если без кода проверки
+        let vowels = ["а", "е", "ё", "и", "о", "у", "ы", "э", "ю", "я"];
+        for (let i = 0; i < text.length; i++) {
+          for (let j = 0; j < vowels.length; j++) {
+            if (vowels[j] === text[i]) {
+              count++;
+              break;
+            }
+          }
+        }
+        return count;
+      }
+
+      function countVoWelsIf() {
+        count = 0; // это можно убрать если без кода проверки
+        for (let i = 0; i < text.length; i++) {
+          if (
+            text[i] === "а" ||
+            text[i] === "е" ||
+            text[i] === "ё" ||
+            text[i] === "и" ||
+            text[i] === "о" ||
+            text[i] === "у" ||
+            text[i] === "ы" ||
+            text[i] === "э" ||
+            text[i] === "ю" ||
+            text[i] === "я"
+          ) {
+            count++;
+          }
+        }
+        return count;
+      }
+
+      function countVoWelsSwitch() {
+        count = 0; // это можно убрать если без кода проверки
+        for (let i = 0; i < text.length; i++) {
+          switch (text[i]) {
+            case "а":
+              count++;
+              break;
+            case "е":
+              count++;
+              break;
+            case "ё":
+              count++;
+              break;
+            case "и":
+              count++;
+              break;
+            case "о":
+              count++;
+              break;
+            case "у":
+              count++;
+              break;
+            case "ы":
+              count++;
+              break;
+            case "э":
+              count++;
+              break;
+            case "ю":
+              count++;
+              break;
+            case "я":
+              count++;
+              break;
+          }
+        }
+        return count;
+      }
+
+      function countVowelObj() {
+        count = 0; // это можно убрать если без кода проверки
+        let vowels = {
+          а: 0,
+          е: 0,
+          ё: 0,
+          и: 0,
+          о: 0,
+          у: 0,
+          ы: 0,
+          э: 0,
+          ю: 0,
+          я: 0,
+        };
+        for (let i = 0; i < text.length; i++) {
+          if (text[i] in vowels === true) {
+            count++;
+          }
+        }
+        return count;
+      }
+
+      // код проверки времени
+      // countVowelsCycle выполняется за 110-120 мс
+      // countVoWelsIf выполняет за 35-45 мс
+      // countVoWelsSwitch выполняет за 15-20 мс
+      // countVowelObj выполняет 180-210 мс
+
+      let start = new Date();
+      let n = 0;
+      for (; n < 1000; n++) {
+        countVoWelsSwitch(text);
+        if (n === 999) {
+          var end = new Date();
+          var workTime = end - start;
+          alert(
+            `Количество гласных букв в тексте: ${count}, выполено за ${workTime} милисекунд`
+          );
+        }
+      }
+
+      //   alert(`Количество гласных букв в тексте: ${countVowelsCycle(text)}`);
+      // эту часть оствить вместо кода проверки
+    </script>
+  </body>
+</html>
