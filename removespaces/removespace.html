@@ -18,10 +18,26 @@
         let countTail = 0;
         let result = "";
 
+        if (str[0] !== " " && str[str.length - 1] !== " ") {
+          console.log(
+            `Первый символ ${str[0]}, последний символ ${
+              str[str.length - 1]
+            }, возврат без удаления пробелов`
+          );
+          return str;
+        }
+
         for (i = 0; i < str.length; i++) {
           if (str[i] === " ") {
             countHead++;
           } else break;
+        }
+
+        if (countHead === str.length) {
+          console.log(
+            `Количество пробелов в начале строки - ${countHead} равно длинне строки - ${str.length}`
+          );
+          return str.slice(countHead);
         }
 
         for (i = str.length - 1; i >= 0; i--) {
