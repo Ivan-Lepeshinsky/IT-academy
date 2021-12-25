@@ -15,6 +15,7 @@
       ).toLowerCase();
 
       function countVoWelsSwitch() {
+        console.time("vowels");
         let count = 0;
         for (let i = 0; i < text.length; i++) {
           switch (text[i]) {
@@ -50,13 +51,13 @@
               break;
           }
         }
+        console.timeEnd("vowels");
         return count;
       }
-      console.time("vowels");
+
       console.log(
         `Количество гласных букв в тексте: ${countVoWelsSwitch(text)}`
       );
-      console.timeEnd("vowels");
     </script>
   </body>
 </html>
