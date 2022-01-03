@@ -14,26 +14,21 @@
         "Аргентина,   манит: негра!"
       );
       function palindrome(str) {
-        let string = str.replace(/[\s.,:!?%]/g, "").toLowerCase();
-        let stringLine = "";
-        for (let i = 0; i < string.length; i++) {
-          if (string[i] === "ё") {
-            stringLine += "е";
-          } else if (string[i] === "ъ") {
-            stringLine += "ь";
-          } else stringLine += string[i];
-        }
+        let string = str
+          .replace(/[\s.,:!?%ъь]/g, "")
+          .replace(/ё/g, "e")
+          .toLowerCase();
 
-        for (let i = 0; i < stringLine.length; i++) {
-          if (stringLine[i] === stringLine[stringLine.length - 1 - i]) {
+        for (let i = 0; i < string.length / 2; i++) {
+          if (string[i] === string[string.length - 1 - i]) {
             continue;
           } else {
-            return "это не палиндром";
+            return false;
           }
         }
-        return "это палиндром";
+        return true;
       }
-      alert(palindrome(str));
+      alert(palindrome(str) ? "Это палиндром" : "Это не палиндром");
     </script>
   </body>
 </html>
