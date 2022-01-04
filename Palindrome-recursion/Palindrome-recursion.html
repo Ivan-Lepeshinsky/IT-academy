@@ -22,11 +22,13 @@
         function palindromeRecursion(string) {
           if (string[0] === string[string.length - 1] && string.length > 1) {
             string = string.slice(1, string.length - 1);
-            palindromeRecursion(string);
+            return palindromeRecursion(string);
+          } else if (string.length === 1) {
+            return true;
           } else if (string[0] !== string[string.length - 1]) {
             return false;
           }
-          return true;
+          return;
         }
 
         return palindromeRecursion(string);
