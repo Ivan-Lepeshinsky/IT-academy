@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+      let str = prompt(
+        "введите фразу для проверки",
+        "Аргентина,   манит: негра!"
+      );
+      function palindrome(str) {
+        let string = str
+          .replace(/[\s.,:!?%ъь]/g, "")
+          .replace(/ё/g, "e")
+          .toLowerCase();
+
+        function palindromeRecursion(string) {
+          if (string[0] === string[string.length - 1] && string.length > 1) {
+            string = string.slice(1, string.length - 1);
+            palindromeRecursion(string);
+          } else if (string[0] !== string[string.length - 1]) {
+            return false;
+          }
+          return true;
+        }
+
+        return palindromeRecursion(string);
+      }
+      alert(palindrome(str) ? "Это палиндром" : "Это не палиндром");
+    </script>
+  </body>
+</html>
