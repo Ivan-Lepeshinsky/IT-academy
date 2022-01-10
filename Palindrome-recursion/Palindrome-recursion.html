@@ -16,7 +16,7 @@
       function palindrome(str) {
         let string = str
           .replace(/[\s.,:!?%ъь]/g, "")
-          .replace(/ё/g, "e")
+          .replace(/ё/g, "е")
           .toLowerCase();
 
         function palindromeRecursion(string) {
@@ -25,10 +25,7 @@
             return palindromeRecursion(string);
           } else if (string.length <= 1) {
             return true;
-          } else if (string[0] !== string[string.length - 1]) {
-            return false;
-          }
-          return;
+          } else return false;
         }
 
         return palindromeRecursion(string);
