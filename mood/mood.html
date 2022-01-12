@@ -41,8 +41,14 @@
           var colorName = colors[n];
           colorUsed[colorName]++;
           if (colorUsed[colorName] > 1) {
-            i--;
-            continue;
+            for (var j = 0; ; j++) {
+              n = randomDiap(1, 7);
+              colorName = colors[n];
+              colorUsed[colorName]++;
+              if (colorUsed[colorName] === 1) {
+                break;
+              }
+            }
           }
           console.log(colorName);
         }
