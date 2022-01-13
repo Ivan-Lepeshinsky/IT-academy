@@ -26,28 +26,23 @@
           "фиолетовый",
         ];
         var colorUsed = {
-          красный: 0,
-          оранжевый: 0,
-          жёлтый: 0,
-          зелёный: 0,
-          голубой: 0,
-          синий: 0,
-          фиолетовый: 0,
+          красный: true,
+          оранжевый: true,
+          жёлтый: true,
+          зелёный: true,
+          голубой: true,
+          синий: true,
+          фиолетовый: true,
         };
 
         console.log("цветов: " + colorsCount);
         for (var i = 1; i <= colorsCount; i++) {
-          var n = randomDiap(1, 7);
-          var colorName = colors[n];
-          colorUsed[colorName]++;
-          if (colorUsed[colorName] > 1) {
-            for (var j = 0; ; j++) {
-              n = randomDiap(1, 7);
-              colorName = colors[n];
-              colorUsed[colorName]++;
-              if (colorUsed[colorName] === 1) {
-                break;
-              }
+          for (var j = 0; ; j++) {
+            var n = randomDiap(1, 7);
+            var colorName = colors[n];
+            if (colorUsed[colorName] === true) {
+              colorUsed[colorName] = false;
+              break;
             }
           }
           console.log(colorName);
