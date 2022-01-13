@@ -25,23 +25,15 @@
           "синий",
           "фиолетовый",
         ];
-        var colorUsed = {
-          красный: true,
-          оранжевый: true,
-          жёлтый: true,
-          зелёный: true,
-          голубой: true,
-          синий: true,
-          фиолетовый: true,
-        };
+        var colorUsed = {};
 
         console.log("цветов: " + colorsCount);
         for (var i = 1; i <= colorsCount; i++) {
           for (var j = 0; ; j++) {
             var n = randomDiap(1, 7);
             var colorName = colors[n];
-            if (colorUsed[colorName] === true) {
-              colorUsed[colorName] = false;
+            if ([colorName] in colorUsed === false) {
+              colorUsed[colorName] = true;
               break;
             }
           }
