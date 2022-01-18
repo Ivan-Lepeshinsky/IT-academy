@@ -27,11 +27,9 @@
         if (vowels.includes(v)) return v;
       });
 
-      let case3 = text.reduce(count3, 0);
-
-      function count3(r, v) {
+      let case3 = text.reduce((r, v) => {
         return vowels.includes(v) ? r + 1 : r;
-      }
+      }, 0);
 
       console.log(`Количество гласных букв в тексте: ${cnt}`);
       console.log(`Количество гласных букв в тексте: ${case2.length}`);
