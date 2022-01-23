@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="main">
+      <div class="buttons">
+        <button class="but" onclick="setDrinkData()">
+          Ввести информацию о напитке
+        </button>
+        <button class="but" onclick="getDrinkData()">
+          Получить информацию о напитке
+        </button>
+        <button class="but" onclick="deleteDrinkData()">
+          Удалить информацию о напитке
+        </button>
+        <button class="but" onclick="showDrinks()">
+          Перечень всех напитков
+        </button>
+      </div>
+      <div id="display"></div>
+    </div>
+
+    <style>
+      .main {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+        width: 400px;
+      }
+
+      .buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        align-items: center;
+        box-sizing: border-box;
+        border: 1px solid grey;
+        width: 350px;
+        height: 125px;
+        margin-top: 5px;
+      }
+      #display {
+        box-sizing: border-box;
+        width: 350px;
+        height: 125px;
+        border: 1px solid grey;
+        margin-top: 5px;
+        padding: 10px;
+        box-shadow: inset 5px 5px rgba(105, 105, 105, 0.5),
+          inset -5px -5px rgba(105, 105, 105, 0.521);
+      }
+      .but {
+        height: 50px;
+        width: 150px;
+        border-radius: 5px;
+      }
+      .but:hover {
+        background: rgb(255, 227, 227);
+      }
+    </style>
+
+    <script>
+      "use strict";
+
+      function HashStorageFunc() {
+        let storage = {};
+        this.addValue = function (key, value) {
+          storage[key] = value;
+        };
+        this.getValue = function (key) {
+          return storage[key];
+        };
+        this.deleteValue = function (key) {
+          if (key in storage === true) {
+            delete storage[key];
+            return true;
+          } else return false;
+        };
+        this.getKeys = function () {
+          return Object.keys(storage);
+        };
+      }
+
+      let drinkStorage = new HashStorageFunc();
+
+      let elem = document.getElementById("display");
+
+      function setDrinkData() {
+        let drinkSetName = prompt("Название напитка", "Маргарита");
+        let drinkSetType = confirm("Напиток алкогольный?");
+        let drinkSetRecipe = prompt(
+          "Напишите рецепт приготовления",
+          "Смешать, но не взбалтывать"
+        );
+        drinkStorage.addValue(drinkSetName, [drinkSetType, drinkSetRecipe]);
+      }
+
+      function getDrinkData() {
+        let drinkGetName = prompt("Название напитка", "Маргарита");
+        let getInfo = drinkStorage.getValue(drinkGetName);
+        if (getInfo != undefined) {
+          elem.innerHTML = `Напиток: ${drinkGetName} <br>
+          Алкогольный: ${getInfo[0] ? "Да" : "Нет"} <br>
+          Рецепт: ${getInfo[1]}`;
+        } else elem.innerHTML = `Нет данных о напитке: ${drinkGetName}`;
+      }
+
+      function deleteDrinkData() {
+        let drinkDeleteName = prompt("Название напитка", "Маргарита");
+        let deleteInfo = drinkStorage.deleteValue(drinkDeleteName);
+        if (deleteInfo === true)
+          elem.innerHTML = `Напиток: ${drinkDeleteName} успешно удален.`;
+        else
+          elem.innerHTML = `Напиток: ${drinkDeleteName} отсутсвует в списке.`;
+      }
+
+      function showDrinks() {
+        let drinksList = drinkStorage.getKeys();
+        if (drinksList.length != 0) {
+          elem.innerHTML = "Напитки: <br>";
+          for (let i = 0; i < drinksList.length; i++) {
+            elem.innerHTML += i + 1 + ": " + drinksList[i] + "<br>";
+          }
+        } else elem.innerHTML = "Список напитков пуст";
+      }
+    </script>
+  </body>
+</html>
