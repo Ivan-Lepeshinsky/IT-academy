@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      "use strict";
+
+      let wrapP = function buildWrapper(p, x) {
+        return x != undefined
+          ? `<p lang='${x.lang}'>${mnemReplace(p)}</p>`
+          : `<p>${mnemReplace(p)}</p>`;
+      };
+
+      let wrapH1 = function buildWrapper(p, x) {
+        return x != undefined
+          ? `<H1 align='${x.align}' title='${mnemReplace(
+              x.title
+            )}'>${mnemReplace(p)}</H1>`
+          : `<H1>${mnemReplace(p)}</H1>`;
+      };
+
+      function mnemReplace(p) {
+        let str = p
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/'/g, "&apos;")
+          .replace(/"/g, "&quot;");
+        return str;
+      }
+
+      console.log(wrapP("Однажды в студёную зимнюю пору"));
+      console.log(wrapP("Однажды в студёную зимнюю пору", { lang: "ru" }));
+      console.log(wrapP("Однажды в <студёную> зимнюю пору"));
+      console.log(wrapH1("СТИХИ", { align: "center", title: "M&M's" }));
+    </script>
+  </body>
+</html>
