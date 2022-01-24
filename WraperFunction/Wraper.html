@@ -10,28 +10,28 @@
     <script>
       "use strict";
 
-      let wrapP = function buildWrapper(p, x) {
-        return x != undefined
-          ? `<p lang='${x.lang}'>${mnemReplace(p)}</p>`
-          : `<p>${mnemReplace(p)}</p>`;
-      };
+      let wrapP = buildWrapper.bind("p");
+      let wrapH1 = buildWrapper.bind("H1");
 
-      let wrapH1 = function buildWrapper(p, x) {
-        return x != undefined
-          ? `<H1 align='${x.align}' title='${mnemReplace(
-              x.title
-            )}'>${mnemReplace(p)}</H1>`
-          : `<H1>${mnemReplace(p)}</H1>`;
-      };
+      function buildWrapper(text, atrib) {
+        if (atrib != undefined) {
+          let atr = "";
+          for (let key in atrib) {
+            atr += key + '="' + mnemReplace(atrib[key]) + '" ';
+          }
 
-      function mnemReplace(p) {
-        let str = p
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/'/g, "&apos;")
-          .replace(/"/g, "&quot;");
-        return str;
+          return `<${this}` + " " + `${atr}>${mnemReplace(text)}<${this}>`;
+        } else return `<${this}>${mnemReplace(text)}</${this}>`;
+
+        function mnemReplace(p) {
+          let str = p
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/'/g, "&apos;")
+            .replace(/"/g, "&quot;");
+          return str;
+        }
       }
 
       console.log(wrapP("Однажды в студёную зимнюю пору"));
