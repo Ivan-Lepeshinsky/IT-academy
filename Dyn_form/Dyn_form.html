@@ -71,14 +71,16 @@
 
         function rowCreate(formDef) {
           let tr = document.createElement("tr");
-          let keys = Object.keys(formDef);
 
-          if (keys.length === 3) {
+          if (formDef.variants === undefined && formDef.caption === undefined) {
             tr.appendChild(tdNameCreate(formDef));
-            tr.appendChild(tdInputCreate(formDef, keys));
+            tr.appendChild(tdInputCreate(formDef));
             return tr;
-          } else if (keys.length === 2) {
-            tr.appendChild(tdInputCreate(formDef, keys));
+          } else if (
+            formDef.variants === undefined &&
+            formDef.caption != undefined
+          ) {
+            tr.appendChild(tdInputCreate(formDef));
             return tr;
           } else {
             tr.appendChild(tdNameCreate(formDef));
@@ -98,13 +100,13 @@
           return td;
         }
 
-        function tdInputCreate(formDef, keys) {
+        function tdInputCreate(formDef) {
           let td = document.createElement("td");
           let tdCont = document.createElement("input");
           tdCont.setAttribute("type", typeConvert(formDef.kind));
           if (formDef.name != undefined) {
             tdCont.setAttribute("name", formDef.name);
-          } else if (keys.length === 2) {
+          } else if (formDef.caption != undefined) {
             tdCont.setAttribute("value", formDef.caption);
           }
           td.appendChild(tdCont);
