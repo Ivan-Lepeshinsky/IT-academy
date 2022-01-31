@@ -74,27 +74,26 @@
           let keys = Object.keys(formDef);
 
           if (keys.length === 3) {
-            tr.appendChild(tdNameCreate(formDef, keys[0]));
+            tr.appendChild(tdNameCreate(formDef));
             tr.appendChild(tdInputCreate(formDef, keys));
             return tr;
           } else if (keys.length === 2) {
             tr.appendChild(tdInputCreate(formDef, keys));
             return tr;
           } else {
-            tr.appendChild(tdNameCreate(formDef, keys[0]));
+            tr.appendChild(tdNameCreate(formDef));
             if (formDef.kind === "combo") {
-              tr.appendChild(tdSelectCreate(formDef, keys));
+              tr.appendChild(tdSelectCreate(formDef));
             } else {
-              tr.appendChild(
-                tdInputRadioCreate(formDef, keys, formDef.variants)
-              );
+              tr.appendChild(tdInputRadioCreate(formDef, formDef.variants));
             }
             return tr;
           }
         }
-        function tdNameCreate(formDef, keys) {
+
+        function tdNameCreate(formDef) {
           let td = document.createElement("td");
-          let tdName = document.createTextNode(formDef[keys]);
+          let tdName = document.createTextNode(formDef.label);
           td.appendChild(tdName);
           return td;
         }
@@ -102,30 +101,30 @@
         function tdInputCreate(formDef, keys) {
           let td = document.createElement("td");
           let tdCont = document.createElement("input");
-          tdCont.setAttribute("type", typeConvert(formDef[keys[1]]));
-          if (keys[2] != undefined) {
-            tdCont.setAttribute("name", formDef[keys[2]]);
+          tdCont.setAttribute("type", typeConvert(formDef.kind));
+          if (formDef.name != undefined) {
+            tdCont.setAttribute("name", formDef.name);
           } else if (keys.length === 2) {
-            tdCont.setAttribute("value", formDef[keys[0]]);
+            tdCont.setAttribute("value", formDef.caption);
           }
           td.appendChild(tdCont);
           return td;
         }
 
-        function tdSelectCreate(formDef, keys) {
+        function tdSelectCreate(formDef) {
           let td = document.createElement("td");
           let select = document.createElement("select");
-          select.setAttribute("name", formDef[keys[2]]);
-          for (let i = 0; i < formDef[keys[3]].length; i++) {
+          select.setAttribute("name", formDef.name);
+          for (let i = 0; i < formDef.variants.length; i++) {
             let optn = document.createElement("option");
             optn.setAttribute("value", i);
-            optn.innerHTML += formDef[keys[3]][i].text;
+            optn.innerHTML += formDef.variants[i].text;
             select.appendChild(optn);
           }
           td.appendChild(select);
           return td;
         }
-        function tdInputRadioCreate(formDef, keys, variants) {
+        function tdInputRadioCreate(formDef, variants) {
           let td = document.createElement("td");
           for (let i = 0; i < variants.length; i++) {
             let tdCont = document.createElement("input");
