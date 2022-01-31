@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form
+      method="post"
+      action="https://fe.it-academy.by/TestForm.php"
+      name="form1"
+    ></form>
+    <hr />
+    <form
+      method="post"
+      action="https://fe.it-academy.by/TestForm.php"
+      name="form2"
+    ></form>
+    <script>
+      "use strict";
+
+      var formDef1 = [
+        { label: "Название сайта:", kind: "longtext", name: "sitename" },
+        { label: "URL сайта:", kind: "longtext", name: "siteurl" },
+        { label: "Посетителей в сутки:", kind: "number", name: "visitors" },
+        { label: "E-mail для связи:", kind: "shorttext", name: "email" },
+        {
+          label: "Рубрика каталога:",
+          kind: "combo",
+          name: "division",
+          variants: [
+            { text: "здоровье", value: 1 },
+            { text: "домашний уют", value: 2 },
+            { text: "бытовая техника", value: 3 },
+          ],
+        },
+        {
+          label: "Размещение:",
+          kind: "radio",
+          name: "payment",
+          variants: [
+            { text: "бесплатное", value: 1 },
+            { text: "платное", value: 2 },
+            { text: "VIP", value: 3 },
+          ],
+        },
+        { label: "Разрешить отзывы:", kind: "check", name: "votes" },
+        { label: "Описание сайта:", kind: "memo", name: "description" },
+        { caption: "Опубликовать", kind: "submit" },
+      ];
+
+      var formDef2 = [
+        { label: "Фамилия:", kind: "longtext", name: "lastname" },
+        { label: "Имя:", kind: "longtext", name: "firstname" },
+        { label: "Отчество:", kind: "longtext", name: "secondname" },
+        { label: "Возраст:", kind: "number", name: "age" },
+        { caption: "Зарегистрироваться", kind: "submit" },
+      ];
+
+      function dynForm(formName, formDef) {
+        let frm = document.forms[formName];
+        let table = document.createElement("table");
+        for (let i = 0; i < formDef.length; i++) {
+          let row = rowCreate(formDef[i]);
+          table.appendChild(row);
+        }
+
+        frm.appendChild(table);
+
+        function rowCreate(formDef) {
+          let tr = document.createElement("tr");
+          let keys = Object.keys(formDef);
+
+          if (keys.length === 3) {
+            tr.appendChild(tdNameCreate(formDef, keys[0]));
+            tr.appendChild(tdInputCreate(formDef, keys));
+            return tr;
+          } else if (keys.length === 2) {
+            tr.appendChild(tdInputCreate(formDef, keys));
+            return tr;
+          } else {
+            tr.appendChild(tdNameCreate(formDef, keys[0]));
+            if (formDef.kind === "combo") {
+              tr.appendChild(tdSelectCreate(formDef, keys));
+            } else {
+              tr.appendChild(
+                tdInputRadioCreate(formDef, keys, formDef.variants)
+              );
+            }
+            return tr;
+          }
+        }
+        function tdNameCreate(formDef, keys) {
+          let td = document.createElement("td");
+          let tdName = document.createTextNode(formDef[keys]);
+          td.appendChild(tdName);
+          return td;
+        }
+
+        function tdInputCreate(formDef, keys) {
+          let td = document.createElement("td");
+          let tdCont = document.createElement("input");
+          tdCont.setAttribute("type", typeConvert(formDef[keys[1]]));
+          if (keys[2] != undefined) {
+            tdCont.setAttribute("name", formDef[keys[2]]);
+          } else if (keys.length === 2) {
+            tdCont.setAttribute("value", formDef[keys[0]]);
+          }
+          td.appendChild(tdCont);
+          return td;
+        }
+
+        function tdSelectCreate(formDef, keys) {
+          let td = document.createElement("td");
+          let select = document.createElement("select");
+          select.setAttribute("name", formDef[keys[2]]);
+          for (let i = 0; i < formDef[keys[3]].length; i++) {
+            let optn = document.createElement("option");
+            optn.setAttribute("value", i);
+            optn.innerHTML += formDef[keys[3]][i].text;
+            select.appendChild(optn);
+          }
+          td.appendChild(select);
+          return td;
+        }
+        function tdInputRadioCreate(formDef, keys, variants) {
+          let td = document.createElement("td");
+          for (let i = 0; i < variants.length; i++) {
+            let tdCont = document.createElement("input");
+            let span = document.createElement("span");
+            tdCont.setAttribute("type", "radio");
+            tdCont.setAttribute("name", formDef.name);
+            tdCont.setAttribute("value", variants[i].value);
+            span.innerHTML = variants[i].text;
+            td.appendChild(tdCont);
+            td.appendChild(span);
+          }
+          return td;
+        }
+
+        function typeConvert(kind) {
+          switch (kind) {
+            case "longtext":
+              return "text";
+              break;
+            case "number":
+              return "number";
+              break;
+            case "submit":
+              return "submit";
+              break;
+            case "check":
+              return "checkbox";
+              break;
+            case "radio":
+              return "radio";
+              break;
+          }
+        }
+      }
+
+      dynForm("form2", formDef2);
+      dynForm("form1", formDef1);
+    </script>
+  </body>
+</html>
