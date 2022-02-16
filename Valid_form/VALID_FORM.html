@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>Для внесения вашего сайта в каталог, заполните форму:</p>
+    <form
+      method="post"
+      action="https://fe.it-academy.by/TestForm.php"
+      id="regform"
+    >
+      <table>
+        <tr>
+          <td>Разработчики:</td>
+          <td>
+            <input
+              type="text"
+              name="developer"
+              style="width: 400px"
+              id="devdiv"
+            />
+          </td>
+          <td>
+            <span id="devspan"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Название сайта:</td>
+          <td>
+            <input
+              type="text"
+              name="sitename"
+              style="width: 400px"
+              id="siteDameDiv"
+            />
+          </td>
+          <td>
+            <span id="siteNameSpan"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>URL сайта:</td>
+          <td>
+            <input
+              type="text"
+              name="url"
+              style="width: 400px"
+              id="siteUrlDiv"
+            />
+          </td>
+          <td>
+            <span id="siteUrlSpan"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Дата запуска сайта:</td>
+          <td><input type="date" name="sitestart" id="siteStratDiv" /></td>
+          <td>
+            <span id="siteStratSpan"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>Посетителей в сутки:</td>
+          <td>
+            <input
+              type="text"
+              name="visitors"
+              style="width: 100px"
+              id="visitorsDiv"
+            />
+          </td>
+          <td><span id="visitorsSpan"></span></td>
+        </tr>
+        <tr>
+          <td>E-mail для связи:</td>
+          <td><input type="text" name="email" id="emailDiv" /></td>
+          <td><span id="emailSpan"></span></td>
+        </tr>
+        <tr>
+          <td>Рубрика каталога:</td>
+          <td>
+            <select name="department" id="department">
+              <option value="0"></option>
+              <option value="1">Здоровье</option>
+              <option value="2">Домашний Уют</option>
+              <option value="3">Бытовая техника</option>
+            </select>
+          </td>
+          <td><span id="departmentSpan"></span></td>
+        </tr>
+        <tr>
+          <td>Размещение:</td>
+          <td>
+            <input type="radio" name="publish" value="1" id="publish1" /><label
+              for="publish1"
+              >БЕСПЛАТНОЕ</label
+            >
+            <input type="radio" name="publish" value="2" id="publish2" /><label
+              for="publish2"
+              >ПЛАТНОЕ</label
+            >
+            <input type="radio" name="publish" value="3" id="publish3" /><label
+              for="publish3"
+              >VIP</label
+            >
+          </td>
+          <td><span id="plasementSpan"></span></td>
+        </tr>
+        <tr>
+          <td>Разрешить отзывы:</td>
+          <td><input type="checkbox" id="reviews"/></td>
+          <td><span></span></td>
+        </tr>
+        <tr>
+          <td>Описание сайта:</td>
+          <td>
+            <input type="text" style="width:400px
+            ; height:50px" id="reviewstext"></input>
+            <span id="reviewstextspan"></span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <input type="submit" value="Опубликовать" id="sbmt" />
+          </td>
+        </tr>
+      </table>
+    </form>
+    <script src="valid.js"></script>
+  </body>
+</html>
