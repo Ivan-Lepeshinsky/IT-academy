@@ -30,7 +30,10 @@ let plasementSpan = document.getElementById("plasementSpan");
 // проверка отзывов
 let reviews = document.getElementById("reviews");
 let reviewstextspan = document.getElementById("reviewstextspan");
-let reviewstext = document.getElementById("reviewstext");
+
+// проверка описания
+let description = document.getElementById("description");
+let descriptiontspan = document.getElementById("descriptiontspan");
 
 // финальная проверка
 let sbmt = document.getElementById("regform");
@@ -46,7 +49,7 @@ for (let i = 0; i < plasementDiv.length; i++) {
   plasementDiv[i].addEventListener("change", (EO) => plasementCheck(false));
 }
 reviews.addEventListener("change", (EO) => reviewstextCheck(false));
-reviewstext.addEventListener("blur", (EO) => reviewstextCheck(false));
+description.addEventListener("blur", (EO) => descriptionCheck(false));
 
 sbmt.addEventListener("submit", (EO) => finalCheck(EO));
 
@@ -186,20 +189,27 @@ function plasementCheck(ef) {
 }
 
 function reviewstextCheck(ef) {
-  if (reviews.checked && !reviewstext.value) {
-    reviewstextspan.innerHTML = "Необходимо заполнить поле";
-    if (ef) {
-      reviewstext.focus();
-    }
-    return 1;
-  } else if (!reviews.checked && reviewstext.value) {
-    reviewstextspan.innerHTML = "Опция отправки отзывов не выбрана";
+  if (!reviews.checked) {
+    reviewstextspan.innerHTML = "Отзывы недоступны";
     if (ef) {
       reviewstext.focus();
     }
     return 1;
   } else {
     reviewstextspan.innerHTML = "";
+    return 0;
+  }
+}
+
+function descriptionCheck(ef) {
+  if (!description.value) {
+    descriptiontspan.innerHTML = "Поле не может быть пустым";
+    if (ef) {
+      description.focus();
+    }
+    return 1;
+  } else {
+    descriptiontspan.innerHTML = "";
     return 0;
   }
 }
@@ -216,6 +226,7 @@ function finalCheck(EO) {
   errCount += departmentCheck(!errCount);
   errCount += plasementCheck(!errCount);
   errCount += reviewstextCheck(!errCount);
+  errCount += descriptionCheck(!errCount);
 
   if (errCount) EO.preventDefault();
 }
