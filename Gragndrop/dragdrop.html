@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>drag&amp;drop</title>
+  </head>
+  <body style="min-height: 100vh">
+    <img src="http://fe.it-academy.by/Sites/0000007/sax.jpg" />
+    <img
+      src="http://fe.it-academy.by/Sites/0000007/Yin_and_Yang.png"
+      width="100"
+    />
+    <img
+      src="http://fe.it-academy.by/Sites/0000007/Man-and-woman.png"
+      width="150"
+    />
+    <img
+      src="http://fe.it-academy.by/Sites/0000007/No_smoking.png"
+      style="padding-left: 50px"
+    />
+
+    <script>
+      "use strict";
+
+      let img = document.getElementsByTagName("img");
+      let imgage = null;
+      let pointX = 0;
+      let pointY = 0;
+      let zind = 0;
+
+      function getCoordinates() {
+        for (let i = 0; i < img.length; i++) {
+          img[i].style.left =
+            img[i].getBoundingClientRect().left + window.pageXOffset + "px";
+          img[i].style.top =
+            img[i].getBoundingClientRect().top + window.pageYOffset + "px";
+          img[i].style.zIndex = 0;
+        }
+
+        for (let i = 0; i < img.length; i++) {
+          img[i].style.position = "absolute";
+        }
+      }
+
+      function picSelect(EO) {
+        EO = EO || window.event;
+        EO.preventDefault();
+        pointX = EO.offsetX;
+        pointY = EO.offsetY;
+        imgage = EO.target;
+        zind++;
+        imgage.addEventListener("mousemove", picmove);
+        imgage.style.cursor = "pointer";
+      }
+
+      function picmove(EO) {
+        EO = EO || window.event;
+        EO.preventDefault();
+        imgage.style.left = EO.pageX - pointX + "px";
+        imgage.style.top = EO.pageY - pointY + "px";
+        imgage.style.zIndex = zind;
+      }
+
+      function picPlace(EO) {
+        EO = EO || window.event;
+        imgage.style.left = EO.pageX - pointX + "px";
+        imgage.style.top = EO.pageY - pointY + "px";
+        imgage.removeEventListener("mousemove", picmove);
+        imgage.style.cursor = "default";
+      }
+
+      window.addEventListener("load", getCoordinates);
+      document.body.addEventListener("mousedown", picSelect);
+      document.body.addEventListener("mouseup", picPlace);
+    </script>
+  </body>
+</html>
