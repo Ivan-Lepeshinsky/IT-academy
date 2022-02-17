@@ -41,10 +41,11 @@ siteUrlDiv.addEventListener("blur", (EO) => checkSiteUrl(false));
 siteStratDiv.addEventListener("blur", (EO) => checksiteStrat(false));
 visitorsDiv.addEventListener("blur", (EO) => checksitevisitors(false));
 emailDiv.addEventListener("blur", (EO) => checkEmail(false));
-department.addEventListener("blur", (EO) => departmentCheck(false));
+department.addEventListener("change", (EO) => departmentCheck(false));
 for (let i = 0; i < plasementDiv.length; i++) {
-  plasementDiv[i].addEventListener("blur", (EO) => plasementCheck(false));
+  plasementDiv[i].addEventListener("change", (EO) => plasementCheck(false));
 }
+reviews.addEventListener("change", (EO) => reviewstextCheck(false));
 reviewstext.addEventListener("blur", (EO) => reviewstextCheck(false));
 
 sbmt.addEventListener("submit", (EO) => finalCheck(EO));
@@ -187,6 +188,12 @@ function plasementCheck(ef) {
 function reviewstextCheck(ef) {
   if (reviews.checked && !reviewstext.value) {
     reviewstextspan.innerHTML = "Необходимо заполнить поле";
+    if (ef) {
+      reviewstext.focus();
+    }
+    return 1;
+  } else if (!reviews.checked && reviewstext.value) {
+    reviewstextspan.innerHTML = "Опция отправки отзывов не выбрана";
     if (ef) {
       reviewstext.focus();
     }
