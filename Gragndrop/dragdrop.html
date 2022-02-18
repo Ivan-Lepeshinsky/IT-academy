@@ -49,7 +49,7 @@
         pointY = EO.offsetY;
         imgage = EO.target;
         zind++;
-        imgage.addEventListener("mousemove", picmove);
+        document.addEventListener("mousemove", picmove);
         imgage.style.cursor = "pointer";
       }
 
@@ -65,7 +65,7 @@
         EO = EO || window.event;
         imgage.style.left = EO.pageX - pointX + "px";
         imgage.style.top = EO.pageY - pointY + "px";
-        imgage.removeEventListener("mousemove", picmove);
+        document.removeEventListener("mousemove", picmove);
         imgage.style.cursor = "default";
       }
 
