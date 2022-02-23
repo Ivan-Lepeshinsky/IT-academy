@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="clock_input">
+      <input
+        type="text"
+        id="watch_size"
+        placeholder="Укажите диапазон от 200 до 800"
+      />
+      <button id="buildwatch">Постоить часы</button>
+    </div>
+    <div id="clock_table">
+      <div id="hours_hand"></div>
+      <div id="minutes_hand"></div>
+      <div id="seconds_hand"></div>
+      <span id="texttime"></span>
+    </div>
+    <style>
+      #clock_input {
+        margin: 100px auto;
+        width: 300px;
+        height: 50px;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+      }
+
+      #clock_table {
+        display: none;
+        width: 800px;
+        height: 800px;
+        margin: 0 auto;
+        background: linear-gradient(0deg, rgb(152, 207, 195), rgb(24, 93, 96));
+        border-radius: 50%;
+        position: relative;
+      }
+      #hours_hand {
+        top: 49%;
+        left: 25%;
+        transform-origin: 95%;
+        background: black;
+        position: absolute;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
+      }
+      #minutes_hand {
+        top: 49%;
+        left: 10%;
+        transform-origin: 88%;
+        background: black;
+        position: absolute;
+        border-top-left-radius: 25%;
+        border-bottom-left-radius: 25%;
+      }
+
+      #seconds_hand {
+        top: 50%;
+        transform-origin: 90%;
+        background: red;
+        position: absolute;
+      }
+
+      #texttime {
+        position: absolute;
+      }
+    </style>
+    <script>
+      "use strict";
+      let watchSize; //диаметр часов
+      let hoursAmount = 12; //количество часов
+      const MINUTESAMOUNT = 60; //число минут в часе
+      const SECONDSAMOUNT = 60; // число секунд в минуте
+      let hours_hand = document.getElementById("hours_hand"); //часовая стрелка
+      let minutes_hand = document.getElementById("minutes_hand"); //минутная стрелка
+      let seconds_hand = document.getElementById("seconds_hand"); //секундная стрелка
+      let textTime = document.getElementById("texttime"); //цифрофое табло
+      let tick; // таймер времени
+
+      document
+        .getElementById("watch_size")
+        .addEventListener("keydown", (EO) => {
+          if (EO.keyCode === 13) {
+            buildWatch();
+          }
+        });
+      document
+        .getElementById("buildwatch")
+        .addEventListener("click", buildWatch);
+
+      function buildWatch() {
+        watchSize = document.getElementById("watch_size").value;
+        if (
+          Number(watchSize) < 200 ||
+          Number(watchSize) > 800 ||
+          isNaN(watchSize)
+        ) {
+          alert("диапазон не поддерживается");
+        } else {
+          let clockInput = document.getElementById("clock_input");
+          clockInput.style.display = "none";
+
+          let clock_table = document.getElementById("clock_table");
+          clock_table.style.width = `${watchSize}` + "px";
+          clock_table.style.height = `${watchSize}` + "px";
+          clock_table.style.display = "block";
+
+          hours_hand.style.width = `${watchSize}` / 3.8 + "px";
+          hours_hand.style.height = `${watchSize}` / 50 + "px";
+
+          minutes_hand.style.width = `${watchSize}` / 2.2 + "px";
+          minutes_hand.style.height = `${watchSize}` / 100 + "px";
+
+          seconds_hand.style.width = `${watchSize}` / 1.8 + "px";
+          seconds_hand.style.height = `${watchSize}` / 400 + "px";
+
+          textTime.style.fontSize = `${watchSize}` / 10 + "px";
+          textTime.style.left = `${watchSize}` / 3 + "px";
+          textTime.style.top = `${watchSize}` / 4 + "px";
+
+          for (let i = 1; i <= hoursAmount; i++) {
+            let sin = Math.sin((30 * i * Math.PI) / 180).toFixed(2); //координата по Х div часа
+            let cos = Math.cos((30 * i * Math.PI) / 180).toFixed(2); //координата по У div часа
+            let digitDiv = document.createElement("div");
+
+            digitDiv.style.width = `${watchSize}` / 20 + "px";
+            digitDiv.style.height = `${watchSize}` / 20 + "px";
+            digitDiv.style.position = "absolute";
+            digitDiv.style.background = "green";
+            digitDiv.style.borderRadius = "50%";
+            digitDiv.innerHTML = i;
+            digitDiv.style.fontSize = `${watchSize}` / 25 + "px";
+            digitDiv.style.color = "white";
+            digitDiv.style.textAlign = "center";
+            clock_table.appendChild(digitDiv);
+
+            digitDiv.style.left =
+              `${watchSize}` / 2.1 + (`${watchSize}` / 2.2) * sin + "px";
+            digitDiv.style.top =
+              `${watchSize}` / 2.1 - (`${watchSize}` / 2.2) * cos + "px";
+          }
+        }
+        setTime();
+      }
+
+      function setTime() {
+        if (tick) {
+          clearInterval(tick);
+          tick = 0;
+        }
+        let time = new Date();
+        let hours = time.getHours();
+        let minutes = time.getMinutes();
+        let seconds = time.getSeconds();
+        let timeString = // переменная времени для строки и консоли
+          `${hours < 10 ? "0" + hours : hours}` +
+          ":" +
+          `${minutes < 10 ? "0" + minutes : minutes}` +
+          ":" +
+          `${seconds < 10 ? "0" + seconds : seconds}`;
+
+        textTime.innerHTML = timeString;
+
+        hours_hand.style.transform = `rotate(${
+          360 / (hoursAmount / hours) + 90 + minutes / 2
+        }deg)`;
+        minutes_hand.style.transform = `rotate(${
+          360 / (MINUTESAMOUNT / minutes) + 90 + seconds / 10
+        }deg)`;
+        seconds_hand.style.transform = `rotate(${
+          360 / (SECONDSAMOUNT / seconds) + 90
+        }deg)`;
+
+        console.log(timeString);
+        tick = setInterval(setTime, 1000);
+      }
+    </script>
+  </body>
+</html>
