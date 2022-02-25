@@ -92,9 +92,10 @@
           textTime.setAttribute("y", `${watchSize}` / 4);
 
           for (let i = 1; i <= hoursAmount; i++) {
-            let sin = Math.sin((30 * i * Math.PI) / 180).toFixed(2); //координата по Х div часа
-            let cos = Math.cos((30 * i * Math.PI) / 180).toFixed(2); //координата по У div часа
-
+            let sin = Math.sin((30 * i * Math.PI) / 180).toFixed(2); //координата по Х для расчета позиционирования элементов цифебрала по кругу
+            let cos = Math.cos((30 * i * Math.PI) / 180).toFixed(2); //координата по У для расчета позиционирования элементов цифебрала по кругу
+            let posX = `${watchSize}` / 2 + (`${watchSize}` / 2.3) * sin; //координата позиционирования диска и числа на циферблате по X
+            let posY = `${watchSize}` / 2 - (`${watchSize}` / 2.3) * cos; //координата позиционирования диска и числа на циферблате по Y
             let hourCirle = document.createElementNS(
               "http://www.w3.org/2000/svg",
               "circle"
@@ -106,25 +107,15 @@
 
             hourCirle.setAttribute("r", `${watchSize}` / 20);
             hourCirle.setAttribute("fill", "#ff0000");
-            hourCirle.setAttribute(
-              "cx",
-              `${watchSize}` / 2 + (`${watchSize}` / 2.3) * sin
-            );
-            hourCirle.setAttribute(
-              "cy",
-              `${watchSize}` / 2 - (`${watchSize}` / 2.3) * cos
-            );
+            hourCirle.setAttribute("cx", `${posX}`);
+            hourCirle.setAttribute("cy", `${posY}`);
 
             hourCirleText.textContent = `${i}`;
             hourCirleText.setAttribute("font-size", `${watchSize}` / 15);
-            hourCirleText.setAttribute(
-              "x",
-              `${watchSize}` / 2.1 + (`${watchSize}` / 2.3) * sin
-            );
-            hourCirleText.setAttribute(
-              "y",
-              `${watchSize}` / 1.9 - (`${watchSize}` / 2.3) * cos
-            );
+            hourCirleText.setAttribute("x", `${posX}`);
+            hourCirleText.setAttribute("y", `${posY}`);
+            hourCirleText.setAttribute("text-anchor", "middle");
+            hourCirleText.setAttribute("dominant-baseline", "central ");
             hourCirleText.setAttribute("fill", "#ffffff");
 
             clock.appendChild(hourCirle);
