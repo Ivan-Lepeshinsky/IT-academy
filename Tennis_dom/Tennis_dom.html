@@ -175,6 +175,7 @@
       }
 
       function racketMove(EO) {
+        EO.preventDefault();
         if (EO.key === "Control") {
           leftRacketspeedY = 10;
           if (leftRacketposY > FILDHIGHT - RACKETHIGHT - leftRacketspeedY) {
@@ -203,10 +204,11 @@
         }
       }
       function racketStop(EO) {
-        if (EO.keyCode === 17 || EO.keyCode === 16) {
+        EO.preventDefault();
+        if (EO.key === "Control" || EO.key === "Shift") {
           leftRacketspeedY = 0;
         }
-        if (EO.keyCode === 40 || EO.keyCode === 38) {
+        if (EO.key === "ArrowDown" || EO.key === "ArrowUp") {
           rightRacketspeedY = 0;
         }
       }
