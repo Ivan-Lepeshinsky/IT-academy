@@ -172,35 +172,40 @@
         } else if (BallPosY + BALLSIZE > FILDHIGHT || BallPosY < 0) {
           ballspeedY = -ballspeedY;
         }
+
+        if (leftRacketposY > FILDHIGHT - RACKETHIGHT - leftRacketspeedY) {
+          leftRacketposY = FILDHIGHT - RACKETHIGHT;
+          leftRacketspeedY = 0;
+        }
+        if (leftRacketposY <= 0) {
+          leftRacketposY = 0;
+          leftRacketspeedY = 0;
+        }
+        if (rightRacketposY > FILDHIGHT - RACKETHIGHT - rightRacketspeedY) {
+          rightRacketposY = FILDHIGHT - RACKETHIGHT;
+          rightRacketspeedY = 0;
+        }
+        if (rightRacketposY <= 0) {
+          rightRacketspeedY = 0;
+          rightRacketposY = 0;
+        }
       }
 
       function racketMove(EO) {
         EO.preventDefault();
         if (EO.key === "Control") {
           leftRacketspeedY = 10;
-          if (leftRacketposY > FILDHIGHT - RACKETHIGHT - leftRacketspeedY) {
-            leftRacketspeedY = 0;
-          }
         }
 
         if (EO.key === "Shift") {
           leftRacketspeedY = -10;
-          if (leftRacketposY <= 0) {
-            leftRacketspeedY = 0;
-          }
         }
 
         if (EO.key === "ArrowDown") {
           rightRacketspeedY = 10;
-          if (rightRacketposY > FILDHIGHT - RACKETHIGHT - rightRacketspeedY) {
-            rightRacketspeedY = 0;
-          }
         }
         if (EO.key === "ArrowUp") {
           rightRacketspeedY = -10;
-          if (rightRacketposY <= 0) {
-            rightRacketspeedY = 0;
-          }
         }
       }
       function racketStop(EO) {
