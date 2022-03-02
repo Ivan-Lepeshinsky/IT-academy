@@ -149,14 +149,14 @@
           ballspeedX = 0;
           ballspeedY = 0;
           scoreLeft = scoreLeft + 1;
+          BallPosX = FIELDWIDTH - BALLSIZE;
           score.innerHTML = `${scoreLeft}` + ":" + `${scoreRight}`;
-          clearTimeout(timerId);
         } else if (BallPosX < 0) {
           ballspeedX = 0;
           ballspeedY = 0;
           scoreRight = scoreRight + 1;
+          BallPosX = 0;
           score.innerHTML = `${scoreLeft}` + ":" + `${scoreRight}`;
-          clearTimeout(timerId);
         } else if (
           BallPosX + BALLSIZE > FIELDWIDTH - BALLSIZE / 2 &&
           BallPosY + BALLSIZE > rightRacketposY &&
