@@ -86,7 +86,7 @@
       ball.style.height = BALLSIZE + "px";
       let score = document.getElementById("score"); //табло
       let start = document.getElementById("start"); //кнопка старта
-      start.addEventListener("click", go);
+      start.addEventListener("click", ballMove);
 
       let scoreLeft = 0; //очки игрок слева
       let scoreRight = 0; //очки игрок справа
@@ -102,7 +102,6 @@
       let BallPosY; //позиция мяча по вертикали
       let ballRandX; //направление движения мяча по Х и углаотклонения по У
       let ballRandY; //направление движения мяча по У
-      let timerId; //таймер движения мяча и ракеток
 
       function tennisStart() {
         leftRacketposY = FILDHIGHT / 2 - RACKETHIGHT / 2;
@@ -112,29 +111,20 @@
         rightRacketspeedY = 0;
         rightRacket.style.top = rightRacketposY + "px";
 
+        ballPos();
+        setInterval(tennisMove, 40);
+      }
+
+      function ballPos() {
         ballspeedX = 0;
         BallPosX = FIELDWIDTH / 2 - BALLSIZE / 2;
         ball.style.left = BallPosX + "px";
         ballspeedY = 0;
         BallPosY = FILDHIGHT / 2 - BALLSIZE / 2;
         ball.style.top = BallPosY + "px";
-        ballRandX = Math.random();
-        ballRandY = Math.random();
-
-        if (ballRandX < 0.5) {
-          ballspeedX = -15;
-        } else {
-          ballspeedX = 15;
-        }
-        if (ballRandX > 0.25 && ballRandX < 0.75) {
-          ballspeedY = 1 + ballRandY * 10;
-        } else {
-          ballspeedY -= 1 + ballRandY * 10;
-        }
       }
 
       function tennisMove() {
-        timerId = setTimeout(tennisMove, 40);
         leftRacketposY += leftRacketspeedY;
         leftRacket.style.top = leftRacketposY + "px";
         rightRacketposY += rightRacketspeedY;
@@ -191,6 +181,22 @@
         }
       }
 
+      function ballMove() {
+        ballPos();
+        ballRandX = Math.random();
+        ballRandY = Math.random();
+        if (ballRandX < 0.5) {
+          ballspeedX = -15;
+        } else {
+          ballspeedX = 15;
+        }
+        if (ballRandX > 0.25 && ballRandX < 0.75) {
+          ballspeedY = 1 + ballRandY * 10;
+        } else {
+          ballspeedY -= 1 + ballRandY * 10;
+        }
+      }
+
       function racketMove(EO) {
         EO.preventDefault();
         if (EO.key === "Control") {
@@ -217,11 +223,7 @@
           rightRacketspeedY = 0;
         }
       }
-      function go() {
-        clearTimeout(timerId);
-        tennisStart();
-        tennisMove();
-      }
+
       tennisStart();
 
       document.addEventListener("keydown", racketMove);
