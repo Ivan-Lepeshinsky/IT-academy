@@ -139,13 +139,13 @@
           BallPosY > rightRacketposY - RACKETHIGHT / 2 + FIELDCORRECTION &&
           BallPosY < rightRacketposY + RACKETHIGHT / 2 + FIELDCORRECTION
         ) {
-          ballspeedX = -ballspeedX * 1.1;
+          ballspeedX = -ballspeedX;
         } else if (
           BallPosX <= BALLSIZE + RACKETWIDTH &&
           BallPosY > leftRacketposY - RACKETHIGHT / 2 + FIELDCORRECTION &&
           BallPosY < leftRacketposY + RACKETHIGHT / 2 + FIELDCORRECTION
         ) {
-          ballspeedX = -ballspeedX * 1.1;
+          ballspeedX = -ballspeedX;
         } else if (
           BallPosY + BALLSIZE > FILDHIGHT + FIELDCORRECTION ||
           BallPosY < FIELDCORRECTION + BALLSIZE
