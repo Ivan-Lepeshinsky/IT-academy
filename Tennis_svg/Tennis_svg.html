@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      id="tennis"
+      width="800"
+      height="500"
+    >
+      <text id="strat_text" fill="black" x="10" y="15">Старт!</text>
+      <rect
+        id="start"
+        width="75"
+        height="25"
+        fill="#808080"
+        fill-opacity=".5"
+      ></rect>
+      <text id="score" x="400" y="25" font-size="2em">0:0</text>
+
+      <rect id="middle"></rect>
+      <rect id="left_racket"></rect>
+      <rect id="right_racket"></rect>
+      <circle id="ball"></circle>
+    </svg>
+
+    <style>
+      #tennis {
+        display: block;
+        margin: 0 auto;
+      }
+    </style>
+    <script>
+      "use strict";
+      let gameState = 0; //  статус игры
+      // 0 игра загружена
+      // 1 игра идет
+      // 2 гол
+      const FIELDWIDTH = 800; //ширина поля
+      const FILDHIGHT = 400; // высота поля
+      const FIELDCORRECTION = 50; // корректоровка элементов относительно сдвига поля
+      const RACKETWIDTH = 10; // ширина ракетки
+      const RACKETHIGHT = 100; // высота ракетки
+      const BALLSIZE = 15; //радиус мяча
+
+      let field = document.getElementById("middle");
+      field.setAttribute("y", `${FIELDCORRECTION}`);
+      field.setAttribute("width", `${FIELDWIDTH}`);
+      field.setAttribute("height", `${FILDHIGHT}`);
+      field.setAttribute("fill", `#9c9c6c`);
+
+      let leftRacket = document.getElementById("left_racket");
+      leftRacket.setAttribute("width", `${RACKETWIDTH}`);
+      leftRacket.setAttribute("height", `${RACKETHIGHT}`);
+      let rightRacket = document.getElementById("right_racket");
+      rightRacket.setAttribute("width", `${RACKETWIDTH}`);
+      rightRacket.setAttribute("height", `${RACKETHIGHT}`);
+
+      let ball = document.getElementById("ball"); // мяч
+      ball.setAttribute("r", `${BALLSIZE}`);
+      ball.setAttribute("fill", "#ff0000");
+
+      let score = document.getElementById("score"); //табло
+      let start = document.getElementById("start"); //кнопка старта
+      start.addEventListener("click", ballMove);
+
+      let scoreLeft = 0; //очки игрок слева
+      let scoreRight = 0; //очки игрок справа
+
+      let leftRacketposY; //позиция левой ракетки
+      let leftRacketspeedY; //скорость леовой ракетки
+      let rightRacketposY; //позиция правой ракетки
+      let rightRacketspeedY; //скорость правой ракетки
+
+      let ballspeedX; // скорость мяча по горизонтали
+      let BallPosX; //позиция мяча по горизонтали
+      let ballspeedY; // скорость мяча по вертикли
+      let BallPosY; //позиция мяча по вертикали
+      let ballRandX; //направление движения мяча по Х и углаотклонения по У
+      let ballRandY; //направление движения мяча по У
+
+      function tennisStart() {
+        leftRacketposY = FILDHIGHT / 2 - RACKETHIGHT / 2 + FIELDCORRECTION;
+        leftRacketspeedY = 0;
+        leftRacket.setAttribute("y", `${leftRacketposY}`);
+        leftRacket.setAttribute("fill", "#00FF00");
+
+        rightRacketposY = FILDHIGHT / 2 - RACKETHIGHT / 2 + FIELDCORRECTION;
+        rightRacketspeedY = 0;
+        rightRacket.setAttribute("x", `${FIELDWIDTH - RACKETWIDTH}`);
+        rightRacket.setAttribute("y", `${rightRacketposY}`);
+        rightRacket.setAttribute("fill", "#0000FF");
+
+        ballPos();
+        setInterval(tennisMove, 40);
+      }
+
+      function ballPos() {
+        ballspeedX = 0;
+        BallPosX = FIELDWIDTH / 2;
+        ball.setAttribute("cx", `${BallPosX}`);
+        ballspeedY = 0;
+        BallPosY = FILDHIGHT / 2 + FIELDCORRECTION;
+        ball.setAttribute("cy", `${BallPosY}`);
+      }
+
+      function tennisMove() {
+        leftRacketposY += leftRacketspeedY;
+        leftRacket.setAttribute("y", `${leftRacketposY}`);
+        rightRacketposY += rightRacketspeedY;
+        rightRacket.setAttribute("y", `${rightRacketposY}`);
+
+        BallPosX += ballspeedX;
+        ball.setAttribute("cx", `${BallPosX}`);
+        BallPosY += ballspeedY;
+        ball.setAttribute("cy", `${BallPosY}`);
+
+        if (BallPosX + BALLSIZE > FIELDWIDTH) {
+          ballspeedX = 0;
+          ballspeedY = 0;
+          gameState = 2;
+          scoreLeft = scoreLeft + 1;
+          BallPosX = FIELDWIDTH - BALLSIZE;
+          score.textContent = `${scoreLeft}` + ":" + `${scoreRight}`;
+        } else if (BallPosX < BALLSIZE) {
+          ballspeedX = 0;
+          ballspeedY = 0;
+          gameState = 2;
+          scoreRight = scoreRight + 1;
+          BallPosX = BALLSIZE;
+          score.textContent = `${scoreLeft}` + ":" + `${scoreRight}`;
+        } else if (
+          BallPosX >= FIELDWIDTH - RACKETWIDTH - BALLSIZE &&
+          BallPosY > rightRacketposY - RACKETHIGHT / 2 + FIELDCORRECTION &&
+          BallPosY < rightRacketposY + RACKETHIGHT / 2 + FIELDCORRECTION
+        ) {
+          ballspeedX = -ballspeedX * 1.1;
+        } else if (
+          BallPosX <= BALLSIZE + RACKETWIDTH &&
+          BallPosY > leftRacketposY - RACKETHIGHT / 2 + FIELDCORRECTION &&
+          BallPosY < leftRacketposY + RACKETHIGHT / 2 + FIELDCORRECTION
+        ) {
+          ballspeedX = -ballspeedX * 1.1;
+        } else if (
+          BallPosY + BALLSIZE > FILDHIGHT + FIELDCORRECTION ||
+          BallPosY < FIELDCORRECTION + BALLSIZE
+        ) {
+          ballspeedY = -ballspeedY;
+        }
+
+        if (
+          leftRacketposY >
+          FILDHIGHT - RACKETHIGHT + FIELDCORRECTION - leftRacketspeedY
+        ) {
+          leftRacketspeedY = 0;
+          leftRacketposY = FILDHIGHT - RACKETHIGHT + FIELDCORRECTION;
+        }
+        if (leftRacketposY <= FIELDCORRECTION) {
+          leftRacketspeedY = 0;
+          leftRacketposY = FIELDCORRECTION;
+        }
+        if (
+          rightRacketposY >
+          FILDHIGHT - RACKETHIGHT + FIELDCORRECTION - rightRacketspeedY
+        ) {
+          rightRacketspeedY = 0;
+          rightRacketposY = FILDHIGHT - RACKETHIGHT + FIELDCORRECTION;
+        }
+        if (rightRacketposY <= FIELDCORRECTION) {
+          rightRacketspeedY = 0;
+          rightRacketposY = FIELDCORRECTION;
+        }
+      }
+
+      function ballMove() {
+        if (gameState != 1) {
+          ballPos();
+          ballRandX = Math.random();
+          ballRandY = Math.random();
+          if (ballRandX < 0.5) {
+            ballspeedX = -15;
+          } else {
+            ballspeedX = 15;
+          }
+          if (ballRandX > 0.25 && ballRandX < 0.75) {
+            ballspeedY = 1 + ballRandY * 10;
+          } else {
+            ballspeedY -= 1 + ballRandY * 10;
+          }
+          gameState = 1;
+        }
+      }
+
+      function racketMove(EO) {
+        EO.preventDefault();
+        if (EO.key === "Control") {
+          leftRacketspeedY = 10;
+        }
+
+        if (EO.key === "Shift") {
+          leftRacketspeedY = -10;
+        }
+
+        if (EO.key === "ArrowDown") {
+          rightRacketspeedY = 10;
+        }
+        if (EO.key === "ArrowUp") {
+          rightRacketspeedY = -10;
+        }
+      }
+      function racketStop(EO) {
+        EO.preventDefault();
+        if (EO.key === "Control" || EO.key === "Shift") {
+          leftRacketspeedY = 0;
+        }
+        if (EO.key === "ArrowDown" || EO.key === "ArrowUp") {
+          rightRacketspeedY = 0;
+        }
+      }
+
+      tennisStart();
+
+      document.addEventListener("keydown", racketMove);
+      document.addEventListener("keyup", racketStop);
+    </script>
+  </body>
+</html>
