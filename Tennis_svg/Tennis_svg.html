@@ -110,16 +110,6 @@
       }
 
       function tennisMove() {
-        leftRacketposY += leftRacketspeedY;
-        leftRacket.setAttribute("y", `${leftRacketposY}`);
-        rightRacketposY += rightRacketspeedY;
-        rightRacket.setAttribute("y", `${rightRacketposY}`);
-
-        BallPosX += ballspeedX;
-        ball.setAttribute("cx", `${BallPosX}`);
-        BallPosY += ballspeedY;
-        ball.setAttribute("cy", `${BallPosY}`);
-
         if (BallPosX + BALLSIZE > FIELDWIDTH) {
           ballspeedX = 0;
           ballspeedY = 0;
@@ -147,8 +137,8 @@
         ) {
           ballspeedX = -ballspeedX;
         } else if (
-          BallPosY + BALLSIZE > FILDHIGHT + FIELDCORRECTION ||
-          BallPosY < FIELDCORRECTION + BALLSIZE
+          BallPosY + BALLSIZE > FILDHIGHT + FIELDCORRECTION - ballspeedY ||
+          BallPosY < FIELDCORRECTION + BALLSIZE - ballspeedY
         ) {
           ballspeedY = -ballspeedY;
         }
@@ -160,7 +150,7 @@
           leftRacketspeedY = 0;
           leftRacketposY = FILDHIGHT - RACKETHIGHT + FIELDCORRECTION;
         }
-        if (leftRacketposY <= FIELDCORRECTION) {
+        if (leftRacketposY <= FIELDCORRECTION - leftRacketspeedY) {
           leftRacketspeedY = 0;
           leftRacketposY = FIELDCORRECTION;
         }
@@ -171,10 +161,20 @@
           rightRacketspeedY = 0;
           rightRacketposY = FILDHIGHT - RACKETHIGHT + FIELDCORRECTION;
         }
-        if (rightRacketposY <= FIELDCORRECTION) {
+        if (rightRacketposY < FIELDCORRECTION - rightRacketspeedY) {
           rightRacketspeedY = 0;
           rightRacketposY = FIELDCORRECTION;
         }
+
+        leftRacketposY += leftRacketspeedY;
+        leftRacket.setAttribute("y", `${leftRacketposY}`);
+        rightRacketposY += rightRacketspeedY;
+        rightRacket.setAttribute("y", `${rightRacketposY}`);
+
+        BallPosX += ballspeedX;
+        ball.setAttribute("cx", `${BallPosX}`);
+        BallPosY += ballspeedY;
+        ball.setAttribute("cy", `${BallPosY}`);
       }
 
       function ballMove() {
